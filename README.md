@@ -50,10 +50,10 @@ La aplicación consume el API pública de [PokeAPI](https://pokeapi.co/) y permi
 ## 📸 Capturas de Pantalla
 
 ### Pantalla de Listado
-<img src="screenshots/list_screen.png" width="300"/>
+<img src="screenshots/list_screen.jpg" width="300"/>
 
 ### Pantalla de Detalle
-<img src="screenshots/detail_screen.png" width="300"/>
+<img src="screenshots/detail_screen.jpg" width="300"/>
 
 
 
