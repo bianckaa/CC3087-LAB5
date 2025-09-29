@@ -20,33 +20,6 @@ La aplicación consume el API pública de [PokeAPI](https://pokeapi.co/) y permi
    - Cada imagen está acompañada por su respectiva etiqueta descriptiva.  
    - Incluye una barra superior con botón de retroceso para regresar al listado.
 
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Kotlin**
-- **Jetpack Compose** (para la UI declarativa).
-- **Retrofit** (para consumir la API REST).
-- **Coil** (para la carga de imágenes).
-- **Navigation Compose** (para manejar la navegación entre pantallas).
-- **MVVM** (patrón de arquitectura utilizando `ViewModel` y `StateFlow`).
-
-
-## 📂 Estructura del Proyecto
-├── data
-│ └── remote
-│ ├── models
-│ │ ├── PokemonResponse.kt
-│ │ └── PokemonDetail.kt
-│ ├── PokeApiService.kt
-│ └── RetrofitInstance.kt
-├── ui
-│ └── screens
-│ ├── PokemonListScreen.kt
-│ └── PokemonDetailScreen.kt
-├── viewmodel
-│ └── PokemonViewModel.kt
-└── MainActivity.kt
-
 ## 📸 Capturas de Pantalla
 
 ### Pantalla de Listado
