@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.laboratorio_5.ui.screens.PokemonDetailScreen
+import com.example.laboratorio_5.ui.screens.PokemonListScreen
 import com.example.laboratorio_5.ui.theme.Laboratorio_5Theme
 
 class MainActivity : ComponentActivity() {
@@ -18,12 +23,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Laboratorio_5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "list") {
+                composable("list") {
+                    PokemonListScreen(navController)
+                }
+                composable("detail/{id}") { backStackEntry ->
+                    val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 1
+                    PokemonDetailScreen(id)
                 }
             }
         }
