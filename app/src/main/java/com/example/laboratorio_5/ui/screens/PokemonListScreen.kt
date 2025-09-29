@@ -38,7 +38,7 @@ fun PokemonListScreen(
     val pokemonList by vm.pokemonList.collectAsState(initial = emptyList())
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("MainFragment") }) }
+        topBar = { TopAppBar(title = { Text("Pokedex") }) }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
