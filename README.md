@@ -1,12 +1,8 @@
-# Laboratorio #5 - Network access with Retrofi
-## Pokedex App
-
+# Pokedex App - Laboratorio #5
 Aplicación desarrollada en **Kotlin** utilizando **Jetpack Compose**, **Retrofit** y **Navigation**.  
 El objetivo del laboratorio fue poner en práctica los permisos y el acceso a internet, así como reforzar conceptos previos como el diseño de UI y navegación.
 
----
-
-## 🚀 Descripción
+## 🗒️ Descripción
 
 La aplicación consume el API pública de [PokeAPI](https://pokeapi.co/) y permite:
 
@@ -50,14 +46,13 @@ La aplicación consume el API pública de [PokeAPI](https://pokeapi.co/) y permi
 ├── viewmodel
 │ └── PokemonViewModel.kt
 └── MainActivity.kt
----
 
 ## 📸 Capturas de Pantalla
 
-### 🔹 Pantalla de Listado
+### Pantalla de Listado
 <img src="screenshots/list_screen.png" width="300"/>
 
-### 🔹 Pantalla de Detalle
+### Pantalla de Detalle
 <img src="screenshots/detail_screen.png" width="300"/>
 
 
