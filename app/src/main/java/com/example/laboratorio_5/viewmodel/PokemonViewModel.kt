@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.laboratorio_5.data.remote.RetrofitClient
 import com.example.laboratorio_5.data.remote.PokemonDetailResponse
 import com.example.laboratorio_5.data.remote.PokemonResult
+import com.example.laboratorio_5.data.repository.PokemonRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PokemonViewModel : ViewModel() {
+class PokemonViewModel(
+    private val repository: PokemonRepository = PokemonRepository(RetrofitClient.api)
+) : ViewModel() {
 
     private val _pokemonList = MutableStateFlow<List<PokemonResult>>(emptyList())
     val pokemonList: StateFlow<List<PokemonResult>> = _pokemonList
@@ -21,27 +24,17 @@ class PokemonViewModel : ViewModel() {
         fetchPokemonList()
     }
 
-    // Función para obtener la lista de Pokémon desde la API
+    // Función para obtener la lista de Pokémon
     private fun fetchPokemonList() {
         viewModelScope.launch {
-            try {
-                val response = RetrofitClient.api.getPokemonList(limit = 100, offset = 0)
-                _pokemonList.value = response.results
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            _pokemonList.value = repository.getPokemonList()
         }
     }
 
     // Función para obtener los detalles de un Pokémon específico
     fun fetchPokemonDetail(name: String) {
         viewModelScope.launch {
-            try {
-                val response = RetrofitClient.api.getPokemonDetail(name)
-                _selectedPokemon.value = response
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            _selectedPokemon.value = repository.getPokemonDetail(name)
         }
     }
 }
