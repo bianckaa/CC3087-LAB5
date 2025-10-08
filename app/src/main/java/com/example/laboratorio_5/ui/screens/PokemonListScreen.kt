@@ -2,6 +2,7 @@ package com.example.laboratorio_5.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,49 +42,54 @@ fun PokemonListScreen(
     Scaffold(
         topBar = { TopAppBar(title = { Text("Pokedex") }) }
     ) { padding ->
-        // Mostrar mensaje de error si es necesario
-        val currentError = errorMessage
-        if (currentError != null) {
-            Text(
-                text = currentError,
-                color = androidx.compose.ui.graphics.Color.Red,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(8.dp)
         ) {
-            items(pokemonList) { pokemon ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp)
-                        .clickable { onPokemonClick(pokemon.name) }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        // Extraer número desde la URL
-                        val number = pokemon.url.trimEnd('/').split("/").lastOrNull() ?: "0"
-                        val imageUrl =
-                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
+            // Mostrar lista si hay datos
+            if (pokemonList.isNotEmpty()) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(pokemonList) { pokemon ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .clickable { onPokemonClick(pokemon.name) }
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(8.dp)
+                            ) {
+                                val number = pokemon.url.trimEnd('/').split("/").lastOrNull() ?: "0"
+                                val imageUrl =
+                                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
 
-                        Image(
-                            painter = rememberAsyncImagePainter(imageUrl),
-                            contentDescription = pokemon.name,
-                            modifier = Modifier.size(60.dp)
-                        )
+                                Image(
+                                    painter = rememberAsyncImagePainter(imageUrl),
+                                    contentDescription = pokemon.name,
+                                    modifier = Modifier.size(60.dp)
+                                )
 
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            text = pokemon.name.replaceFirstChar { it.uppercase() },
-                            style = MaterialTheme.typography.titleMedium
-                        )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Text(
+                                    text = pokemon.name.replaceFirstChar { it.uppercase() },
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+                        }
                     }
+                }
+            }
+
+            // Mostrar mensaje de error si existe
+            errorMessage?.let { msg ->
+                if (pokemonList.isEmpty()) {
+                    Text(
+                        text = msg,
+                        color = androidx.compose.ui.graphics.Color.Red,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -57,90 +58,94 @@ fun PokemonDetailScreen(
             )
         }
     ) { padding ->
-        // Mostrar error si ocurre
-        val currentError = errorMessage
-        if (currentError != null) {
-            Text(
-                text = currentError,
-                color = androidx.compose.ui.graphics.Color.Red,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            pokemonDetail?.let { detail ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(8.dp))
 
+                    // Primera fila: Front y Back
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Front")
+                            detail.sprites.front_default?.let {
+                                Image(
+                                    painter = rememberAsyncImagePainter(it),
+                                    contentDescription = "Front",
+                                    modifier = Modifier.size(120.dp)
+                                )
+                            }
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Back")
+                            detail.sprites.back_default?.let {
+                                Image(
+                                    painter = rememberAsyncImagePainter(it),
+                                    contentDescription = "Back",
+                                    modifier = Modifier.size(120.dp)
+                                )
+                            }
+                        }
+                    }
 
-        pokemonDetail?.let { detail ->
-            Column(
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Segunda fila: Front Shiny y Back Shiny
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Front Shiny")
+                            detail.sprites.front_shiny?.let {
+                                Image(
+                                    painter = rememberAsyncImagePainter(it),
+                                    contentDescription = "Front Shiny",
+                                    modifier = Modifier.size(120.dp)
+                                )
+                            }
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Back Shiny")
+                            detail.sprites.back_shiny?.let {
+                                Image(
+                                    painter = rememberAsyncImagePainter(it),
+                                    contentDescription = "Back Shiny",
+                                    modifier = Modifier.size(120.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+            } ?: Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(padding),
+                contentAlignment = Alignment.Center
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
+                CircularProgressIndicator()
+            }
 
-                // Primera fila: Front y Back
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Front")
-                        detail.sprites.front_default?.let {
-                            Image(
-                                painter = rememberAsyncImagePainter(it),
-                                contentDescription = "Front",
-                                modifier = Modifier.size(120.dp)
-                            )
-                        }
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Back")
-                        detail.sprites.back_default?.let {
-                            Image(
-                                painter = rememberAsyncImagePainter(it),
-                                contentDescription = "Back",
-                                modifier = Modifier.size(120.dp)
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Segunda fila: Front Shiny y Back Shiny
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Front Shiny")
-                        detail.sprites.front_shiny?.let {
-                            Image(
-                                painter = rememberAsyncImagePainter(it),
-                                contentDescription = "Front Shiny",
-                                modifier = Modifier.size(120.dp)
-                            )
-                        }
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Back Shiny")
-                        detail.sprites.back_shiny?.let {
-                            Image(
-                                painter = rememberAsyncImagePainter(it),
-                                contentDescription = "Back Shiny",
-                                modifier = Modifier.size(120.dp)
-                            )
-                        }
-                    }
+            // Mostrar mensaje de error si existe
+            errorMessage?.let { msg ->
+                if (pokemonDetail == null) {
+                    Text(
+                        text = msg,
+                        color = androidx.compose.ui.graphics.Color.Red,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    )
                 }
             }
-        } ?: Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
         }
     }
 }

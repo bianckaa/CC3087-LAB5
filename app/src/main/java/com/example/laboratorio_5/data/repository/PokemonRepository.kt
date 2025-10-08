@@ -11,8 +11,7 @@ class PokemonRepository(private val api: ApiService) {
             val response = api.getPokemonList(limit, offset)
             response.results
         } catch (e: Exception) {
-            e.printStackTrace() // error registrado
-            emptyList() // devuelve un valor seguro
+            throw e
         }
     }
 
@@ -21,7 +20,7 @@ class PokemonRepository(private val api: ApiService) {
             api.getPokemonDetail(name)
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+            throw e
         }
     }
 }

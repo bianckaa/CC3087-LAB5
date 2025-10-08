@@ -30,11 +30,16 @@ class PokemonViewModel(
     // Función para obtener la lista de Pokémon
     private fun fetchPokemonList() {
         viewModelScope.launch {
-            val result = repository.getPokemonList()
-            if (result.isEmpty()) {
-                _errorMessage.value = "No se puedo cargar la lista de Pokémon correctamente"
-            } else {
-                _pokemonList.value = result
+            try {
+                val result = repository.getPokemonList()
+                if (result.isEmpty()) {
+                    _errorMessage.value = "No se pudo cargar la lista de Pokémon correctamente 😢"
+                } else {
+                    _pokemonList.value = result
+                    _errorMessage.value = null
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar la lista de Pokémon"
             }
         }
     }
@@ -42,11 +47,13 @@ class PokemonViewModel(
     // Función para obtener los detalles de un Pokémon específico
     fun fetchPokemonDetail(name: String) {
         viewModelScope.launch {
-            val result =  repository.getPokemonDetail(name)
-            if (result == null) {
-                _errorMessage.value = "No se puedo cargar los detalles del Pokémon"
-            } else {
-                _selectedPokemon.value = result
+            try {
+                val detail = repository.getPokemonDetail(name)
+                _selectedPokemon.value = detail
+                _errorMessage.value = null
+            } catch (e: Exception) {
+                _selectedPokemon.value = null
+                _errorMessage.value = "Error al cargar los detalles de $name💔"
             }
         }
     }
