@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,9 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.laboratorio_5.model.PokemonDetailResponse
+import com.example.laboratorio_5.data.remote.PokemonDetailResponse
 import com.example.laboratorio_5.viewmodel.PokemonViewModel
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

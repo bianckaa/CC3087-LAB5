@@ -2,9 +2,9 @@ package com.example.laboratorio_5.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.laboratorio_5.data.remote.RetrofitInstance
-import com.example.laboratorio_5.model.PokemonDetailResponse
-import com.example.laboratorio_5.model.PokemonResult
+import com.example.laboratorio_5.data.remote.RetrofitClient
+import com.example.laboratorio_5.data.remote.PokemonDetailResponse
+import com.example.laboratorio_5.data.remote.PokemonResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,10 +21,11 @@ class PokemonViewModel : ViewModel() {
         fetchPokemonList()
     }
 
+    // Función para obtener la lista de Pokémon desde la API
     private fun fetchPokemonList() {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getPokemonList(limit = 100, offset = 0)
+                val response = RetrofitClient.api.getPokemonList(limit = 100, offset = 0)
                 _pokemonList.value = response.results
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -32,10 +33,11 @@ class PokemonViewModel : ViewModel() {
         }
     }
 
+    // Función para obtener los detalles de un Pokémon específico
     fun fetchPokemonDetail(name: String) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getPokemonDetail(name)
+                val response = RetrofitClient.api.getPokemonDetail(name)
                 _selectedPokemon.value = response
             } catch (e: Exception) {
                 e.printStackTrace()

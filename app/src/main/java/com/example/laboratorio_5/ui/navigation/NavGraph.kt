@@ -1,4 +1,4 @@
-package com.example.laboratorio_5
+package com.example.laboratorio_5.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
