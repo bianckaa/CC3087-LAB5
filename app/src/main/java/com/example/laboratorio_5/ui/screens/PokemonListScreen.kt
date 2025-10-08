@@ -36,10 +36,20 @@ fun PokemonListScreen(
     val vm: PokemonViewModel = viewModel()
 
     val pokemonList by vm.pokemonList.collectAsState(initial = emptyList())
+    val errorMessage by vm.errorMessage.collectAsState(initial = null)
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Pokedex") }) }
     ) { padding ->
+        // Mostrar mensaje de error si es necesario
+        val currentError = errorMessage
+        if (currentError != null) {
+            Text(
+                text = currentError,
+                color = androidx.compose.ui.graphics.Color.Red,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

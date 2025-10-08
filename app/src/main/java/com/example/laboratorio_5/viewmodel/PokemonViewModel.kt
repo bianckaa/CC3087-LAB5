@@ -20,6 +20,9 @@ class PokemonViewModel(
     private val _selectedPokemon = MutableStateFlow<PokemonDetailResponse?>(null)
     val selectedPokemon: StateFlow<PokemonDetailResponse?> = _selectedPokemon
 
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
     init {
         fetchPokemonList()
     }
@@ -27,14 +30,24 @@ class PokemonViewModel(
     // Función para obtener la lista de Pokémon
     private fun fetchPokemonList() {
         viewModelScope.launch {
-            _pokemonList.value = repository.getPokemonList()
+            val result = repository.getPokemonList()
+            if (result.isEmpty()) {
+                _errorMessage.value = "No se puedo cargar la lista de Pokémon correctamente"
+            } else {
+                _pokemonList.value = result
+            }
         }
     }
 
     // Función para obtener los detalles de un Pokémon específico
     fun fetchPokemonDetail(name: String) {
         viewModelScope.launch {
-            _selectedPokemon.value = repository.getPokemonDetail(name)
+            val result =  repository.getPokemonDetail(name)
+            if (result == null) {
+                _errorMessage.value = "No se puedo cargar los detalles del Pokémon"
+            } else {
+                _selectedPokemon.value = result
+            }
         }
     }
 }

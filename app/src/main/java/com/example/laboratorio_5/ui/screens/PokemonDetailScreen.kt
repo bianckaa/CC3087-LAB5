@@ -36,6 +36,7 @@ fun PokemonDetailScreen(
     val vm: PokemonViewModel = viewModel()
 
     val pokemonDetail: PokemonDetailResponse? by vm.selectedPokemon.collectAsState(initial = null)
+    val errorMessage by vm.errorMessage.collectAsState(initial = null)
 
     LaunchedEffect(pokemonName) {
         vm.fetchPokemonDetail(pokemonName)
@@ -56,6 +57,17 @@ fun PokemonDetailScreen(
             )
         }
     ) { padding ->
+        // Mostrar error si ocurre
+        val currentError = errorMessage
+        if (currentError != null) {
+            Text(
+                text = currentError,
+                color = androidx.compose.ui.graphics.Color.Red,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+
         pokemonDetail?.let { detail ->
             Column(
                 modifier = Modifier
